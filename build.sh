@@ -121,7 +121,7 @@ aitool --comp="$comp" -u \
 if [ ! $? = 0 ]; then
 	printErr "failed to build '$appImageName'"
 fi
-skip(){
+
 # Experimental shImg build
 # Build SquashFS image
 mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad
@@ -144,7 +144,7 @@ if [ -f "$startDir/$appImageName" ]; then
 	echo 'AppImage already exists; overwriting...'
 	rm "$startDir/$appImageName"
 fi
-}
+
 # Move completed AppImage and zsync file to start directory
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
