@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install deps
-      run: sudo apt install squashfs-tools
+      run: sudo apt install squashfs-tools squashfuse
 
     - name: Build
       run: ./build.sh
@@ -25,4 +25,5 @@ jobs:
         title: "Nightly Build"
         files: |
           *.AppImage
+          *.shImg
           *.zsync
