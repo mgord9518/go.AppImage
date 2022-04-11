@@ -64,8 +64,8 @@ fi
 chmod +x "AppDir/usr/bin/$appBinName"
 
 # Remove stuff not needed for runnung
-rm -r "AppDir/usr/test"
-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
+rm -r "AppDir/usr/test" "AppDir/usr/test"
+strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/* "AppDir/pkg/linux"*
 
 # Download the icon
 wget "$iconUrl" -O "AppDir/usr/share/icons/hicolor/scalable/apps/$appId.svg" &> "$tempDir/out.log"
