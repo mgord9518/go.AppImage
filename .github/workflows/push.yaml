@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install deps
-      run: sudo apt install squashfs-tools squashfuse
+      run: sudo apt install squashfs-tools squashfuse rsvg-convert
 
     - name: Build
       run: ./build.sh
