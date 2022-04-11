@@ -24,18 +24,41 @@ entry="[Desktop Entry]
 Version=1.0
 Type=Application
 Name=$appName
-Comment=Golang compiler
+Comment=Golang $aiVersion compiler
 Exec=$appBinName
 Icon=$appId
 Terminal=true
-Categories=Game;Simulation;
+Categories=Development;Building;
 X-AppImage-Version=
 [X-App Permissions]
 Level=3
 "
 
-appStream='
-'
+appStream='<?xml version="1.0" encoding="UTF-8"?>
+<component type="console-application">
+  <id>dev.go</id>
+
+  <name>Go</name>
+  <summary>Golang compiler</summary>
+
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+
+  <description>
+    <p>
+Go is an open source programming language which is easy to learn and get started with, has built-in concurrency and a robust standard library.
+    </p>
+  </description>
+
+  <categories>
+    <category>Development</category>
+    <category>Building</category>
+  </categories>
+
+  <provides>
+    <binary>go</binary>
+  </provides>
+</component>'
 
 printErr() {
 	echo -e "FATAL: $@"
