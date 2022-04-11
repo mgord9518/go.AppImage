@@ -6,12 +6,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-21.04
     steps:
     - uses: actions/checkout@v2
 
     - name: Install deps
-      run: sudo apt update && sudo apt install squashfs-tools
+      run: sudo apt install squashfs-tools
 
     - name: Build
       run: ./build.sh
