@@ -64,7 +64,7 @@ fi
 chmod +x "AppDir/usr/bin/$appBinName"
 
 # Remove stuff not needed for runnung
-rm -r "AppDir/usr/test" "AppDir/usr/test" "AppDir/pkg/linux"*
+rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
 strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
 
 # Download the icon
