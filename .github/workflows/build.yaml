@@ -6,12 +6,12 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-21.04
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
 
     - name: Install deps
-      run: sudo apt install squashfs-tools
+      run: sudo apt install squashfs-tools squashfuse librsvg2-bin
 
     - name: Build
       run: ./build.sh
@@ -25,4 +25,5 @@ jobs:
         title: "Nightly Build"
         files: |
           *.AppImage
+          *.shImg
           *.zsync
