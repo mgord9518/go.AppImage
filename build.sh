@@ -151,20 +151,24 @@ fi
 
 # Experimental shImg build
 # Build SquashFS image
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad
+# Download mkDwarFS and build image
+wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
+./mkdwarfs -i AppDir -o sfs -l6 -B4 --set-owner 0 --set-group 0
+
+#mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad
 [ $? -ne 0 ] && exit $?
 
 # Download shImg runtime
-wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-x86_64-aarch64"
+wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64-aarch64"
 [ $? -ne 0 ] && exit $?
 
-cat runtime-zstd-x86_64-aarch64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
+cat runtime_dwarf-static-x86_64-aarch64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 
 # Append desktop integration info
-wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
-[ $? -ne 0 ] && exit $?
-sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-x86_64.shImg.zsync"
+#wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
+#[ $? -ne 0 ] && exit $?
+#sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-x86_64.shImg.zsync"
 
 # Take the newly created AppImage and move it into the starting directory
 if [ -f "$startDir/$appImageName" ]; then
