@@ -160,10 +160,10 @@ chmod +x mkdwarfs
 [ $? -ne 0 ] && exit $?
 
 # Download shImg runtime
-wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64-aarch64"
+wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64"
 [ $? -ne 0 ] && exit $?
 
-cat runtime_dwarf-static-x86_64-aarch64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
+cat runtime_dwarf-static-x86_64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 
 # Append desktop integration info
