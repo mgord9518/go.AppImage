@@ -17,7 +17,7 @@ appBinName="go"
 tempDir="$TMPDIR/.buildApp_$appName.$RANDOM"
 startDir="$PWD"
 iconUrl='https://go.dev/images/go-logo-blue.svg'
-comp='gzip'
+comp='zstd'
 
 # Define what should be in the desktop entry
 entry="[Desktop Entry]
