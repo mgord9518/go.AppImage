@@ -7,7 +7,7 @@
 [ -z "$TMPDIR" ] && TMPDIR='/tmp'
 [ -z "$ARCH" ]   && ARCH=$(uname -m)
 
-goDl=$(curl https://go.dev/dl/ -s | grep 'linux-amd64' | grep '<td class' | head -n1 | cut -d'"' -f6)
+goDl=$(curl https://go.dev/dl/ -s | grep 'src.tar.gz' | grep '<td class' | head -n1 | cut -d'"' -f6)
 appUrl="https://go.dev/$goDl"
 aiVersion=$(echo "$goDl" | sed -e 's/\/dl\/go//' -e 's/\.lin.*//')
 appId='dev.go'
@@ -84,6 +84,11 @@ wget "$appUrl" -O - 2> "$tempDir/out.log" | tar -xz -C 'AppDir/usr' --strip 1
 if [ ! $? = 0 ]; then
 	printErr "Failed to download '$appName' (make sure you're connected to the internet)"
 fi
+
+cd src
+CGO_ENABLED=0 ./build.bash
+cd ..
+
 chmod +x "AppDir/usr/bin/$appBinName"
 
 # Remove stuff not needed for runnung
