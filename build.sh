@@ -85,9 +85,9 @@ if [ ! $? = 0 ]; then
 	printErr "Failed to download '$appName' (make sure you're connected to the internet)"
 fi
 
-cd src
+cd 'AppDir/usr/src'
 CGO_ENABLED=0 ./make.bash
-cd ..
+cd "$tempDir"
 
 chmod +x "AppDir/usr/bin/$appBinName"
 
