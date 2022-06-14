@@ -13,7 +13,7 @@ jobs:
     - name: Install deps
       run: |
         sudo apt install squashfs-tools squashfuse librsvg2-bin
-        sudo snap install go
+        sudo snap install go --classic
 
     - name: Build
       run: ./build.sh
