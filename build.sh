@@ -86,7 +86,7 @@ if [ ! $? = 0 ]; then
 fi
 
 cd src
-CGO_ENABLED=0 ./build.bash
+CGO_ENABLED=0 ./make.bash
 cd ..
 
 chmod +x "AppDir/usr/bin/$appBinName"
