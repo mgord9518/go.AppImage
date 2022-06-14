@@ -9,7 +9,7 @@
 
 goDl=$(curl https://go.dev/dl/ -s | grep 'src.tar.gz' | grep '<td class' | head -n1 | cut -d'"' -f6)
 appUrl="https://go.dev/$goDl"
-aiVersion=$(echo "$goDl" | sed -e 's/\/dl\/go//' -e 's/\.lin.*//')
+aiVersion=$(echo "$goDl" | sed -e 's/\/dl\/go//' -e 's/\.src.*//')
 appId='dev.go'
 appName="Go"
 appImageName=$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.AppImage"
