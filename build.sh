@@ -195,9 +195,24 @@ echo "Building $appImageName..."
 export ARCH="aarch64"
 export VERSION="$aiVersion"
 
-aitool --comp="$comp" -u \
-	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
-	'AppDir/'
+#aitool --comp="$comp" -u \
+#	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
+#	'AppDir/'
+
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad
+[ $? -ne 0 ] && exit $?
+
+# Download shImg runtime
+wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-lz4-static-aarch64"
+[ $? -ne 0 ] && exit $?
+
+cat runtime-lz4-static-aarch64 sfs > "aisap-$VERSION-aarch64.shImg"
+chmod +x "aisap-$VERSION-aarch64.shImg"
+
+# Append desktop integration info
+wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
+[ $? -ne 0 ] && exit $?
+sh add_integration.sh ./"aisap-$VERSION-aarch64.shImg" "gh-releases-zsync|mgord9518|aisap|continuous|aisap-*-aarch64.shImg.zsync"
 
 if [ ! $? = 0 ]; then
 	printErr "failed to build '$appImageName'"
@@ -214,8 +229,8 @@ fi
 
 
 
-mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
-mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
+#mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
+#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.shImg" "$startDir"
 
 # Remove all temporary files
