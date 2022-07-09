@@ -231,7 +231,8 @@ fi
 
 #mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
-mv "aisap-$VERSION-aarch64.shImg" "$startDir"
+
+#mv "aisap-$VERSION-aarch64.shImg" "$startDir"
 
 # Remove all temporary files
 echo 'Cleaning up...'
