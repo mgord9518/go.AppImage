@@ -191,7 +191,7 @@ cd 'AppDir/usr/src'
 GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
 cd "$tempDir"
 
-echo "Building $appImageName..."
+echo "Building $appImageName shImg..."
 export ARCH="aarch64"
 export VERSION="$aiVersion"
 
@@ -199,7 +199,7 @@ export VERSION="$aiVersion"
 #	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
 #	'AppDir/'
 
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad -noappend
 [ $? -ne 0 ] && exit $?
 
 # Download shImg runtime
@@ -231,7 +231,7 @@ fi
 
 #mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
-mv $(echo $appName | tr ' ' '_')*"-$ARCH.shImg" "$startDir"
+mv "aisap-$VERSION-aarch64.shImg" "$startDir"
 
 # Remove all temporary files
 echo 'Cleaning up...'
