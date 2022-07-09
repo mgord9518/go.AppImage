@@ -185,6 +185,37 @@ fi
 # Move completed AppImage and zsync file to start directory
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
+
+
+cd 'AppDir/usr/src'
+GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
+cd "$tempDir"
+
+echo "Building $appImageName..."
+export ARCH="aarch64"
+export VERSION="$aiVersion"
+
+aitool --comp="$comp" -u \
+	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
+	'AppDir/'
+
+if [ ! $? = 0 ]; then
+	printErr "failed to build '$appImageName'"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
+mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.shImg" "$startDir"
 
 # Remove all temporary files
