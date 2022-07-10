@@ -186,6 +186,23 @@ fi
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
+rm -rf "$tempDir/AppDir/usr"
+
+# Create and move to working directory
+mkdir -p "$tempDir/AppDir/usr/bin"
+
+if [ ! $? = 0  ]; then
+	printErr 'Failed to create temporary directory.'
+fi
+
+cd "$tempDir"
+echo "Working directory: $tempDir"
+
+echo "Downloading and extracting $appName..."
+wget "$appUrl" -O - 2> "$tempDir/out.log" | tar -xz -C 'AppDir/usr' --strip 1
+if [ ! $? = 0 ]; then
+	printErr "Failed to download '$appName' (make sure you're connected to the internet)"
+fi
 
 cd 'AppDir/usr/src'
 GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
@@ -206,13 +223,13 @@ mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad -
 wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-lz4-static-aarch64"
 [ $? -ne 0 ] && exit $?
 
-cat runtime-lz4-static-aarch64 sfs > "aisap-$VERSION-aarch64.shImg"
-chmod +x "aisap-$VERSION-aarch64.shImg"
+cat runtime-lz4-static-aarch64 sfs > "G-$VERSION-aarch64.shImg"
+chmod +x "Go-$VERSION-aarch64.shImg"
 
 # Append desktop integration info
 wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
 [ $? -ne 0 ] && exit $?
-sh add_integration.sh ./"aisap-$VERSION-aarch64.shImg" "gh-releases-zsync|mgord9518|aisap|continuous|aisap-*-aarch64.shImg.zsync"
+sh add_integration.sh ./"Go-$VERSION-aarch64.shImg" "gh-releases-zsync|mgord9518|go.AppImage|continuous|Go-*-aarch64.shImg.zsync"
 
 if [ ! $? = 0 ]; then
 	printErr "failed to build '$appImageName'"
@@ -229,7 +246,7 @@ fi
 
 
 
-#mv $(echo $appName | tr ' ' '_')*"-aarch64.AppImage" "$startDir"
+mv $(echo $appName | tr ' ' '_')*"-aarch64.shImg" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
 #mv "aisap-$VERSION-aarch64.shImg" "$startDir"
