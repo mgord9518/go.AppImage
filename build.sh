@@ -106,47 +106,15 @@ echo "$entry" > "AppDir/$appId.desktop"
 ln -s "./usr/bin/$appBinName" 'AppDir/AppRun'
 ln -s "./usr/share/icons/hicolor/scalable/apps/$appId.svg" "AppDir/$appId.svg"
 
-# Check if user has AppImageTool (under the names of `appimagetool.AppImage`
-# and `appimagetool-x86_64.AppImage`) if not, download it
-echo 'Checking if AppImageTool is installed...'
-if command -v 'mkappimage.AppImage'; then
-	aitool() {
-		'mkappimage.AppImage' "$@"
-	}
-elif command -v "mkappimage-$ARCH.AppImage"; then
-	aitool() {
-		"mkappimage-$ARCH.AppImage" "$@"
-	}
-elif command -v "$PWD/mkappimage"; then
-	aitool() {
-		"$PWD/mkappimage" "$@"
-	}
-elif command -v 'mkappimage'; then
-	aitool() {
-		'mkappimage' "$@"
-	}
-elif command -v 'appimagetool'; then
-	aitool() {
-		'appimagetool' "$@"
-	}
-else
-	# Hacky one-liner to get the URL to download the latest mkappimage
-	mkAppImageUrl=$(curl -q https://api.github.com/repos/probonopd/go-appimage/releases | grep $(uname -m) | grep mkappimage | grep browser_download_url | cut -d'"' -f4 | head -n1)
-	echo 'Downloading `mkappimage`'
-	wget "$mkAppImageUrl" -O 'mkappimage'
-	chmod +x 'mkappimage'
-	aitool() {
-		"$PWD/mkappimage" "$@"
-    }
-fi
-
+wget 'https://raw.githubusercontent.com/mgord9518/appimage_scripts/main/scripts/get_mkappimage.sh'
+. get_mkappimage.sh
 
 # Use the found mkappimage command to build our AppImage with update information
 echo "Building $appImageName..."
 export ARCH="$ARCH"
 export VERSION="$aiVersion"
 
-aitool --comp="$comp" -u \
+ai_tool --comp="$comp" -u \
 	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
 	'AppDir/'
 
@@ -183,14 +151,14 @@ if [ -f "$startDir/$appImageName" ]; then
 fi
 
 # Move completed AppImage and zsync file to start directory
-chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
+mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
-rm -rf "$tempDir/AppDir/usr"
+#rm -rf "$tempDir/AppDir/usr"
 
 # Create and move to working directory
-mkdir -p "$tempDir/AppDir/usr/bin"
+#mkdir -p "$tempDir/AppDir/usr/bin"
 
 if [ ! $? = 0  ]; then
 	printErr 'Failed to create temporary directory.'
@@ -221,7 +189,7 @@ echo "Building $appImageName shImg..."
 export ARCH="aarch64"
 export VERSION="$aiVersion"
 
-#aitool --comp="$comp" -u \
+#ai_tool --comp="$comp" -u \
 #	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
 #	'AppDir/'
 
@@ -254,7 +222,7 @@ fi
 
 
 
-mv chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
+mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-aarch64.shImg" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
