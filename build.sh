@@ -183,6 +183,7 @@ if [ -f "$startDir/$appImageName" ]; then
 fi
 
 # Move completed AppImage and zsync file to start directory
+chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
@@ -208,6 +209,13 @@ cd 'AppDir/usr/src'
 ./clean.bash
 GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
 cd "$tempDir"
+
+# Remove stuff not needed for runnung
+rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
+mv "AppDir/usr/bin/linux_arm64/"* "AppDir/usr/bin"
+strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
+
+chmod +x "AppDir/usr/bin/$appBinName"
 
 echo "Building $appImageName shImg..."
 export ARCH="aarch64"
@@ -246,8 +254,8 @@ fi
 
 
 
-
-mv $(echo $appName | tr ' ' '_')*"-aarch64.shImg" "$startDir"
+mv chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
+#mv $(echo $appName | tr ' ' '_')*"-aarch64.shImg" "$startDir"
 #mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
 #mv "aisap-$VERSION-aarch64.shImg" "$startDir"
