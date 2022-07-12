@@ -205,6 +205,7 @@ if [ ! $? = 0 ]; then
 fi
 
 cd 'AppDir/usr/src'
+./clean.bash
 GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
 cd "$tempDir"
 
