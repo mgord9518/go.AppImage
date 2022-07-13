@@ -194,11 +194,11 @@ export VERSION="$aiVersion"
 #	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
 #	'AppDir/'
 
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad -noappend
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad -noappend
 [ $? -ne 0 ] && exit $?
 
 # Download shImg runtime
-wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-lz4-static-aarch64"
+wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-aarch64"
 [ $? -ne 0 ] && exit $?
 
 cat runtime-lz4-static-aarch64 sfs > "Go-$VERSION-aarch64.shImg"
