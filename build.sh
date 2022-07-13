@@ -107,7 +107,7 @@ ln -s "./usr/bin/$appBinName" 'AppDir/AppRun'
 ln -s "./usr/share/icons/hicolor/scalable/apps/$appId.svg" "AppDir/$appId.svg"
 
 wget 'https://raw.githubusercontent.com/mgord9518/appimage_scripts/main/scripts/get_mkappimage.sh'
-. get_mkappimage.sh
+. ./get_mkappimage.sh
 
 # Use the found mkappimage command to build our AppImage with update information
 echo "Building $appImageName..."
