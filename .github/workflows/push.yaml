@@ -12,7 +12,7 @@ jobs:
 
     - name: Install deps
       run: |
-        sudo apt install squashfs-tools squashfuse librsvg2-bin binutils-arm-linux-gnueabi
+        sudo apt install squashfs-tools squashfuse librsvg2-bin binutils-aarch64-linux-gnueabi
         sudo snap install go --classic
 
     - name: Build
