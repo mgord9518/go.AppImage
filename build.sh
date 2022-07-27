@@ -201,7 +201,7 @@ mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompressio
 wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-aarch64"
 [ $? -ne 0 ] && exit $?
 
-cat runtime-lz4-static-aarch64 sfs > "Go-$VERSION-aarch64.shImg"
+cat runtime-zstd-static-aarch64 sfs > "Go-$VERSION-aarch64.shImg"
 chmod +x "Go-$VERSION-aarch64.shImg"
 
 # Append desktop integration info
