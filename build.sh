@@ -182,7 +182,7 @@ cd "$tempDir"
 rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
 rm -r "AppDir/usr/pkg/tool/linux_amd64"
 mv "AppDir/usr/bin/linux_arm64/"* "AppDir/usr/bin"
-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
+arm-linux-gnueabi-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
 
 chmod +x "AppDir/usr/bin/$appBinName"
 
