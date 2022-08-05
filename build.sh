@@ -86,7 +86,7 @@ if [ ! $? = 0 ]; then
 fi
 
 cd 'AppDir/usr/src'
-GOFLAGS='-ldflags=-extldflags=-static -ldflags=-s -w' ./make.bash
+GOFLAGS='-ldflags=-extldflags=-static' ./make.bash
 cd "$tempDir"
 
 chmod +x "AppDir/usr/bin/$appBinName"
