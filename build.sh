@@ -194,7 +194,7 @@ export VERSION="$aiVersion"
 #	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
 #	'AppDir/'
 
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad -noappend
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad -noappend
 [ $? -ne 0 ] && exit $?
 
 # Download shImg runtime
