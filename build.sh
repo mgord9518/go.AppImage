@@ -86,14 +86,14 @@ if [ ! $? = 0 ]; then
 fi
 
 cd 'AppDir/usr/src'
-GOFLAGS='-ldflags=-extldflags="-static"' ./make.bash
+GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' ./make.bash
 cd "$tempDir"
 
 chmod +x "AppDir/usr/bin/$appBinName"
 
 # Remove stuff not needed for runnung
 rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
+#strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
 
 # Download the icon
 wget "$iconUrl" -O "AppDir/usr/share/icons/hicolor/scalable/apps/$appId.svg" &> "$tempDir/out.log"
@@ -175,14 +175,15 @@ fi
 
 cd 'AppDir/usr/src'
 ./clean.bash
-GOFLAGS='-ldflags=extldflags=-static' GOARCH=arm64 ./make.bash
+GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' GOARCH=arm64 ./make.bash
 cd "$tempDir"
 
 # Remove stuff not needed for runnung
 rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
 rm -r "AppDir/usr/pkg/tool/linux_amd64"
 mv "AppDir/usr/bin/linux_arm64/"* "AppDir/usr/bin"
-aarch64-linux-gnu-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
+rmdir "AppDir/usr/bin/linux_arm64/"
+#aarch64-linux-gnu-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
 
 chmod +x "AppDir/usr/bin/$appBinName"
 
