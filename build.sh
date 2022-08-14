@@ -127,7 +127,7 @@ fi
 # Download mkDwarFS and build image
 wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
 chmod +x mkdwarfs
-./mkdwarfs -i AppDir -o sfs -l6 -B4 --set-owner 0 --set-group 0
+./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
 
 #mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad
 [ $? -ne 0 ] && exit $?
