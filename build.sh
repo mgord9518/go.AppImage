@@ -86,7 +86,7 @@ if [ ! $? = 0 ]; then
 fi
 
 cd 'AppDir/usr/src'
-GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' ./make.bash
+CC=/usr/bin/musl-gcc GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' ./make.bash
 cd "$tempDir"
 
 chmod +x "AppDir/usr/bin/$appBinName"
