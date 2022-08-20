@@ -209,7 +209,7 @@ chmod +x "Go-$VERSION-aarch64.shImg"
 # Append desktop integration info
 wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
 [ $? -ne 0 ] && exit $?
-sh add_integration.sh ./"Go-$VERSION-aarch64.shImg" "gh-releases-zsync|mgord9518|go.AppImage|continuous|Go-*-aarch64.shImg.zsync"
+sh add_integration.sh ./"Go-$VERSION-aarch64.shImg" "AppDir" "gh-releases-zsync|mgord9518|go.AppImage|continuous|Go-*-aarch64.shImg.zsync"
 
 if [ ! $? = 0 ]; then
 	printErr "failed to build '$appImageName'"
@@ -236,4 +236,4 @@ echo 'Cleaning up...'
 rm -rf "$tempDir"
 
 echo 'DONE!'
-exit 0
+#exit 0
