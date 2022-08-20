@@ -176,7 +176,7 @@ fi
 cd 'AppDir/usr/src'
 ./clean.bash
 #GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' GOARCH=arm64 ./make.bash
-GO_LDFLAGS='-s -w" GOARCH=arm64 ./make.bash
+GO_LDFLAGS='-s -w' GOARCH=arm64 ./make.bash
 cd "$tempDir"
 
 # Remove stuff not needed for runnung
