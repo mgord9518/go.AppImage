@@ -140,9 +140,9 @@ cat runtime_dwarf-static-x86_64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-
 chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 
 # Append desktop integration info
-#wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
-#[ $? -ne 0 ] && exit $?
-#sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-x86_64.shImg.zsync"
+wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
+[ $? -ne 0 ] && exit $?
+sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "AppDir" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-x86_64.shImg.zsync"
 
 # Take the newly created AppImage and move it into the starting directory
 if [ -f "$startDir/$appImageName" ]; then
