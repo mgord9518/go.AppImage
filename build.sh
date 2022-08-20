@@ -236,3 +236,4 @@ echo 'Cleaning up...'
 rm -rf "$tempDir"
 
 echo 'DONE!'
+exit 0
