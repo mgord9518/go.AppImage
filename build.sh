@@ -124,19 +124,21 @@ fi
 
 # Experimental shImg build
 # Build SquashFS image
-# Download mkDwarFS and build image
-wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
-chmod +x mkdwarfs
-./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
+# Build DwarFS if x86_64 (dwarfs binaries only exist on it currently) or SquashFS otherwise
+if [ "$ARCH" == "x86_64" ]; then
+	wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
+	chmod +x mkdwarfs
+	./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
+	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64" -O runtime
+else
+	mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
+	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-x86_64" -O runtime
 
-#mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 22 -nopad
+fi
+
 [ $? -ne 0 ] && exit $?
 
-# Download shImg runtime
-wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64"
-[ $? -ne 0 ] && exit $?
-
-cat runtime_dwarf-static-x86_64 sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
+cat runtime sfs > $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 
 # Append desktop integration info
@@ -154,6 +156,8 @@ fi
 mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
+
+exit 0
 
 #rm -rf "$tempDir/AppDir/usr"
 
