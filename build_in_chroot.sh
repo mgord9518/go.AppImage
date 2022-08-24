@@ -24,4 +24,4 @@ wget https://raw.githubusercontent.com/mgord9518/go.AppImage/main/build.sh
 sh build.sh
 EOF
 
-sudo mv chrootdir/*.AppImage* ./
+sudo mv chrootdir/*.AppImage* chrootdir/*.shImg* ./
