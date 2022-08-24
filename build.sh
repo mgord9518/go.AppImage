@@ -125,7 +125,7 @@ fi
 # Experimental shImg build
 # Build SquashFS image
 # Build DwarFS if x86_64 (dwarfs binaries only exist on it currently) or SquashFS otherwise
-if [ "$ARCH" == "x86_64" ]; then
+if [ "$ARCH" = "x86_64" ]; then
 	wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
 	chmod +x mkdwarfs
 	./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
