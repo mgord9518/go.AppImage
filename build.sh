@@ -115,12 +115,16 @@ echo "Building $appImageName..."
 export ARCH="$ARCH"
 export VERSION="$aiVersion"
 
-ai_tool --comp="$comp" -u \
-	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
-	'AppDir/'
+# Only build standard AppImage under x86_64 for now as for some reason the aarch64 chroot
+# cannot execute the aarch64 version of mkappimage
+if [ "$ARCH" = "x86_64" ]; then
+	ai_tool --comp="$comp" -u \
+		"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
+		'AppDir/'
 
-if [ ! $? = 0 ]; then
-	printErr "failed to build '$appImageName'"
+	if [ ! $? = 0 ]; then
+		printErr "failed to build '$appImageName'"
+	fi
 fi
 
 # Experimental shImg build
@@ -159,6 +163,36 @@ mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
 exit 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #rm -rf "$tempDir/AppDir/usr"
 
