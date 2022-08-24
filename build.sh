@@ -5,7 +5,8 @@
 
 # Variables
 [ -z "$TMPDIR" ] && TMPDIR='/tmp'
-[ -z "$ARCH" ]   && ARCH=$(uname -m)
+#[ -z "$ARCH" ]   && ARCH=$(uname -m)
+ARCH=$(uname -m)
 
 goDl=$(curl https://go.dev/dl/ -s | grep 'src.tar.gz' | grep '<td class' | head -n1 | cut -d'"' -f6)
 appUrl="https://go.dev/$goDl"
