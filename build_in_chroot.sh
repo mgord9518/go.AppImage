@@ -8,7 +8,7 @@ mkdir -p chrootdir/tmp chrootdir/dev chrootdir/proc sfsmnt upper/usr/bin work up
 cp /usr/bin/qemu-aarch64-static upper/usr/bin
 
 # Mount up the chroot
-sudo mount -t squashfs "bionic-server-cloudimg-$1.squashfs" sfsmnt
+sudo mount -t squashfs "focal-server-cloudimg-$1.squashfs" sfsmnt
 sudo mount -t overlay overlay -olowerdir=sfsmnt,upperdir=upper,workdir=work chrootdir
 
 sudo mount -o bind /proc chrootdir/proc/
