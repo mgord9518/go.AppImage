@@ -157,10 +157,14 @@ if [ -f "$startDir/$appImageName" ]; then
 	rm "$startDir/$appImageName"
 fi
 
+ls
+
 # Move completed AppImage and zsync file to start directory
 mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
 mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
+
+ls
 
 exit 0
 
@@ -253,7 +257,6 @@ sh add_integration.sh ./"Go-$VERSION-aarch64.shImg" "AppDir" "gh-releases-zsync|
 if [ ! $? = 0 ]; then
 	printErr "failed to build '$appImageName'"
 fi
-
 
 
 
