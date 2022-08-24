@@ -160,9 +160,9 @@ fi
 ls
 
 # Move completed AppImage and zsync file to start directory
-mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
-mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
-mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
+mv $(echo $appName | tr ' ' '_')"* "$startDir"
+#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
+#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
 
 ls
 
