@@ -18,6 +18,11 @@ jobs:
     - name: Build
       run: ./build.sh
 
+    - name: Build in chroot (aarch64)
+      run: |
+        wget https://cloud-images.ubuntu.com/impish/current/impish-server-cloudimg-arm64.squashfs
+        sh build_in_chroot.sh arm64
+
     - name: Upload build
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
