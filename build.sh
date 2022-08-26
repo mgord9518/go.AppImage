@@ -134,10 +134,10 @@ if [ "$ARCH" = "x86_64" ]; then
 	wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
 	chmod +x mkdwarfs
 	./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
-	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-x86_64" -O runtime
+	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-$ARCH" -O runtime
 else
 	mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
-	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-x86_64" -O runtime
+	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-$ARCH" -O runtime
 
 fi
 
@@ -149,7 +149,7 @@ chmod +x $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg"
 # Append desktop integration info
 wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
 [ $? -ne 0 ] && exit $?
-sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "AppDir" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-x86_64.shImg.zsync"
+sh add_integration.sh ./$(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "AppDir" "gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*-$ARCH.shImg.zsync"
 
 # Take the newly created AppImage and move it into the starting directory
 if [ -f "$startDir/$appImageName" ]; then
