@@ -130,16 +130,19 @@ fi
 # Experimental shImg build
 # Build SquashFS image
 # Build DwarFS if x86_64 (dwarfs binaries only exist on it currently) or SquashFS otherwise
-if [ "$ARCH" = "x86_64" ]; then
-	wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
-	chmod +x mkdwarfs
-	./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
-	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-$ARCH" -O runtime
-else
-	mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
-	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-$ARCH" -O runtime
+#if [ "$ARCH" = "x86_64" ]; then
+#	wget https://github.com/mhx/dwarfs/releases/download/v0.5.6/dwarfs-0.5.6-Linux.tar.xz -O - | tar -xOJ 'dwarfs-0.5.6-Linux/bin/mkdwarfs' --strip=2 > mkdwarfs
+#	chmod +x mkdwarfs
+#	./mkdwarfs -i AppDir -o sfs -l5 -B2 --set-owner 0 --set-group 0
+#	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime_dwarf-static-$ARCH" -O runtime
+#else
+#	mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
+#	wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-$ARCH" -O runtime
+#fi
 
-fi
+# For some reason the DwarFS build is having issues now, so keep it SquashFS until I can fix them
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
+wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-$ARCH" -O runtime
 
 [ $? -ne 0 ] && exit $?
 
