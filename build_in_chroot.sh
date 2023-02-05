@@ -19,7 +19,7 @@ sudo mount --rbind /run/systemd chrootdir/run/systemd
 #####################################################################################
 cat << EOF | sudo chroot chrootdir /bin/bash
 sudo apt update
-sudo apt install -y squashfs-tools squashfuse librsvg2-bin musl musl-tools golang zip
+sudo apt install -y squashfs-tools squashfuse librsvg2-bin musl musl-tools zip
 
 wget https://raw.githubusercontent.com/mgord9518/go.AppImage/main/build.sh
 sh build.sh
