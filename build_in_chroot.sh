@@ -15,18 +15,14 @@ sudo mount -o bind /proc chrootdir/proc/
 #sudo mount -o bind /dev chrootdir/dev/
 sudo mount --rbind /run/systemd chrootdir/run/systemd
 
-# Assuming we have already built for the native arch, move the Go shImg into the chroot
-mv ~/.local/bin/go upper/usr/bin/go
-#wget -O upper/usr/bin/go $(curl -q https://api.github.com/repos/mgord9518/go.AppImage/releases | grep $(uname -m) | grep Go | grep shImg | grep browser_download_url | cut -d'"' -f4 | head -n1)
-#chmod +x upper/usr/bin/go
-
 # Everything below will be run inside the chroot
 #####################################################################################
 cat << EOF | sudo chroot chrootdir /bin/bash
 sudo apt update
 sudo apt install -y squashfs-tools squashfuse librsvg2-bin musl musl-tools zip
 
-PATH="$PATH:$HOME/.local/bin"
+wget -O /usr/bin/go $(curl -q https://api.github.com/repos/mgord9518/go.AppImage/releases | grep $(uname -m) | grep Go | grep shImg | grep browser_download_url | cut -d'"' -f4 | head -n1)
+chmod +x /usr/bin/go
 
 wget https://raw.githubusercontent.com/mgord9518/go.AppImage/main/build.sh
 sh build.sh
