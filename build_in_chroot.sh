@@ -21,8 +21,10 @@ cat << EOF | sudo chroot chrootdir /bin/bash
 sudo apt update
 sudo apt install -y squashfs-tools squashfuse librsvg2-bin musl musl-tools zip
 
-wget -O /usr/bin/go $(curl -q https://api.github.com/repos/mgord9518/go.AppImage/releases | grep $(uname -m) | grep Go | grep shImg | grep browser_download_url | cut -d'"' -f4 | head -n1)
-chmod +x /usr/bin/go
+#wget -O /usr/bin/go $(curl -q https://api.github.com/repos/mgord9518/go.AppImage/releases | grep $(uname -m) | grep Go | grep shImg | grep browser_download_url | cut -d'"' -f4 | head -n1)
+#chmod +x /usr/bin/go
+
+sudo snap install go --classic
 
 wget https://raw.githubusercontent.com/mgord9518/go.AppImage/main/build.sh
 sh build.sh
