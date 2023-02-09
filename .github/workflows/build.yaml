@@ -10,17 +10,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Grab Go shImg
+      run: |
+        mkdir -p ~/.local/bin
+        wget -O ~/.local/bin/go $(curl -q https://api.github.com/repos/mgord9518/go.AppImage/releases | grep $(uname -m) | grep Go | grep shImg | grep browser_download_url | cut -d'"' -f4 | head -n1)
+        chmod +x ~/.local/bin/go
+
     - name: Install deps
       run: |
         sudo apt update
-        sudo apt install squashfs-tools squashfuse librsvg2-bin binutils-aarch64-linux-gnu musl musl-tools golang zip
+        sudo apt install squashfs-tools squashfuse librsvg2-bin binutils-aarch64-linux-gnu musl musl-tools zip
 
     - name: Build
       run: ./build.sh
 
     - name: Build in chroot (aarch64)
       run: |
-        wget https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-arm64.squashfs
+        wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.squashfs
         sh build_in_chroot.sh arm64
 
     - name: Upload build
