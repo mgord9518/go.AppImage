@@ -94,7 +94,6 @@ chmod +x "AppDir/usr/bin/$appBinName"
 
 # Remove stuff not needed for runnung
 rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
-#strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
 
 # Download the icon
 wget "$iconUrl" -O "AppDir/usr/share/icons/hicolor/scalable/apps/$appId.svg" &> "$tempDir/out.log"
@@ -141,7 +140,7 @@ fi
 #fi
 
 # For some reason the DwarFS build is having issues now, so keep it SquashFS until I can fix them
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp zstd -Xcompression-level 19 -nopad
+mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad
 wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-$ARCH" -O runtime
 
 [ $? -ne 0 ] && exit $?
@@ -164,121 +163,9 @@ ls
 
 # Move completed AppImage and zsync file to start directory
 mv $(echo "$appName" | tr ' ' '_')* "$startDir"
-#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage" "$startDir"
-#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
-
-ls
-
-exit 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#rm -rf "$tempDir/AppDir/usr"
-
-# Create and move to working directory
-#mkdir -p "$tempDir/AppDir/usr/bin"
-
-if [ ! $? = 0  ]; then
-	printErr 'Failed to create temporary directory.'
-fi
-
-cd "$tempDir"
-echo "Working directory: $tempDir"
-
-echo "Downloading and extracting $appName..."
-wget "$appUrl" -O - 2> "$tempDir/out.log" | tar -xz -C 'AppDir/usr' --strip 1
-if [ ! $? = 0 ]; then
-	printErr "Failed to download '$appName' (make sure you're connected to the internet)"
-fi
-
-cd 'AppDir/usr/src'
-./clean.bash
-#GO_LDFLAGS='-s -w -linkmode external -extldflags "-static"' GOARCH=arm64 ./make.bash
-GO_LDFLAGS='-s -w' GOARCH=arm64 ./make.bash
-cd "$tempDir"
-
-# Remove stuff not needed for runnung
-rm -r "AppDir/usr/test" "AppDir/usr/doc" "AppDir/usr/pkg/linux"*
-rm -r "AppDir/usr/pkg/tool/linux_amd64"
-mv "AppDir/usr/bin/linux_arm64/"* "AppDir/usr/bin"
-rmdir "AppDir/usr/bin/linux_arm64/"
-#aarch64-linux-gnu-strip -s "AppDir/usr/bin/"* "AppDir/usr/pkg/tool/"*/*
-
-chmod +x "AppDir/usr/bin/$appBinName"
-
-echo "Building $appImageName shImg..."
-export ARCH="aarch64"
-export VERSION="$aiVersion"
-
-#ai_tool --comp="$comp" -u \
-#	"gh-releases-zsync|mgord9518|go.AppImage|continuous|go-*$ARCH.AppImage.zsync" \
-#	'AppDir/'
-
-mksquashfs AppDir sfs -root-owned -no-exports -noI -b 1M -comp lz4 -Xhc -nopad -noappend
-[ $? -ne 0 ] && exit $?
-
-# Download shImg runtime
-wget "https://github.com/mgord9518/shappimage/releases/download/continuous/runtime-zstd-static-aarch64"
-[ $? -ne 0 ] && exit $?
-
-cat runtime-zstd-static-aarch64 sfs > "Go-$VERSION-aarch64.shImg"
-chmod +x "Go-$VERSION-aarch64.shImg"
-
-# Append desktop integration info
-wget 'https://raw.githubusercontent.com/mgord9518/shappimage/main/add_integration.sh'
-[ $? -ne 0 ] && exit $?
-sh add_integration.sh ./"Go-$VERSION-aarch64.shImg" "AppDir" "gh-releases-zsync|mgord9518|go.AppImage|continuous|Go-*-aarch64.shImg.zsync"
-
-if [ ! $? = 0 ]; then
-	printErr "failed to build '$appImageName'"
-fi
-
-
-
-
-
-
-
-
-
-
-mv $(echo $appName | tr ' ' '_')"-$aiVersion-$ARCH.shImg" "$startDir"
-#mv $(echo $appName | tr ' ' '_')*"-aarch64.shImg" "$startDir"
-#mv $(echo $appName | tr ' ' '_')*"-$ARCH.AppImage.zsync" "$startDir"
-
-#mv "aisap-$VERSION-aarch64.shImg" "$startDir"
 
 # Remove all temporary files
 echo 'Cleaning up...'
 rm -rf "$tempDir"
 
-echo 'DONE!'
-#exit 0
+exit 0
