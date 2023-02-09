@@ -26,7 +26,7 @@ jobs:
 
     - name: Build in chroot (aarch64)
       run: |
-        wget https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-arm64.squashfs
+        wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.squashfs
         sh build_in_chroot.sh arm64
 
     - name: Upload build
